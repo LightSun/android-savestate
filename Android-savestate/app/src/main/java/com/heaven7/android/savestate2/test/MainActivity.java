@@ -16,6 +16,9 @@ import android.view.View;
 import com.heaven7.android.savestate2.SaveStateField;
 import com.heaven7.android.savestate2.SaveStateHelper;
 
+/**
+ * android 开启不保留活动.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            mState = 3;
         } else {
             super.onBackPressed();
         }
@@ -114,11 +118,14 @@ public class MainActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mhelper.onSaveInstanceState(outState);
+        System.out.println("onSaveInstanceState: state = " + mState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        System.out.println("before onRestoreInstanceState: state = " + mState);
         mhelper.onRestoreInstanceState(savedInstanceState);
+        System.out.println("after onRestoreInstanceState: state = " + mState);
     }
 }
