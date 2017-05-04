@@ -1,4 +1,4 @@
-package com.heaven7.android.save_state;
+package com.heaven7.android.savestate2;
 
 import android.annotation.TargetApi;
 import android.os.Build;
