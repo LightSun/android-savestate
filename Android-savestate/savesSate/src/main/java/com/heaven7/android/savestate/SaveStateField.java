@@ -13,11 +13,13 @@ import java.lang.annotation.Target;
 public @interface SaveStateField {
     /**
      * the key used to save data into bundle or restore data from bundle.
+     * @return the field name
      */
     String value();
 
     /**
      * the flag indicate the value type
+     *  @return the type flag of save instance state.
      */
     @BundleSupportTypeFlag int flag() default BundleSupportType.STRING;
 }
