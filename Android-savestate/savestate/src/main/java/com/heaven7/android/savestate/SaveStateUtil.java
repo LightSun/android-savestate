@@ -362,7 +362,7 @@ import java.util.Collection;
             }
         }
 
-        private static boolean contains(Class<?>[] interfaces, Class<?> clzz) {
+      /*  private static boolean contains(Class<?>[] interfaces, Class<?> clzz) {
             if(interfaces==null || interfaces.length==0)
                 return false;
             for(Class<?> clazz : interfaces){
@@ -370,6 +370,6 @@ import java.util.Collection;
                     return true;
             }
             return false;
-        }
+        }*/
 
     }
