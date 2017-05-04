@@ -13,12 +13,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.heaven7.android.savestate2.SaveStateField;
+import com.heaven7.android.savestate2.SaveStateHelper;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @SaveStateField("mState")
+    private int mState;
+
+    private SaveStateHelper mhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mhelper = new SaveStateHelper(this);
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,5 +108,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mhelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mhelper.onRestoreInstanceState(savedInstanceState);
     }
 }
