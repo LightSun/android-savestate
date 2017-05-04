@@ -1,4 +1,4 @@
-package com.heaven7.android.savestate.test;
+package com.heaven7.android.save_state.test;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

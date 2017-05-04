@@ -1,4 +1,4 @@
-package com.heaven7.android.savestate;
+package com.heaven7.android.save_state;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.heaven7.android.savestate.test", appContext.getPackageName());
+        assertEquals("com.heaven7.android.savestate", appContext.getPackageName());
     }
 }

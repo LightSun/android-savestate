@@ -32,7 +32,7 @@ dependencies {
 }
 publish {
     userOrg = 'lightsun'
-    groupId = 'com.heaven7.android.savestate'
+    groupId = 'com.heaven7.android.save_state'
     artifactId = 'saveState'
     publishVersion = '1.0'
     desc = 'a lib help we handle save state and restore it'

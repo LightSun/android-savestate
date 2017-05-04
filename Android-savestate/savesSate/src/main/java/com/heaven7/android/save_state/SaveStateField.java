@@ -1,4 +1,4 @@
-package com.heaven7.android.savestate;
+package com.heaven7.android.save_state;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
