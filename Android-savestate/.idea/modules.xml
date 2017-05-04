@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android-savestate.iml" filepath="$PROJECT_DIR$/Android-savestate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/savestate/savestate.iml" filepath="$PROJECT_DIR$/savestate/savestate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/save-state/save-state.iml" filepath="$PROJECT_DIR$/save-state/save-state.iml" />
     </modules>
   </component>
 </project>
