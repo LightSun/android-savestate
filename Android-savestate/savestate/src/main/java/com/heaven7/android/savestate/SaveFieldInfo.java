@@ -1,0 +1,16 @@
+package com.heaven7.android.savestate;
+
+import java.lang.reflect.Field;
+
+/*public*/ class SaveFieldInfo {
+    Field field;
+    SaveStateField saveField;
+    /** flag type */
+    int type;
+
+    public SaveFieldInfo(Field f, SaveStateField saveField, int type) {
+        this.field = f;
+        this.saveField = saveField;
+        this.type = type;
+    }
+}
