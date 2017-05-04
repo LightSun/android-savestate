@@ -3,6 +3,7 @@
     package="com.heaven7.android.savestate2.test">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.killSelfService" android:exported="false"/>
     </application>
 
 </manifest>
