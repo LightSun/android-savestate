@@ -1,18 +1,16 @@
+apply from: '../constants.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 25
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
-
-       // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -23,19 +21,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-   /* androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }) */
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:25.2.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 publish {
     userOrg = 'lightsun'
     groupId = 'com.heaven7.android.savestate2'
     artifactId = 'saveState'
-    publishVersion = '1.0'
+    publishVersion = android.defaultConfig.versionName
     desc = 'a lib help we handle save state and restore it'
     website = 'https://github.com/LightSun/android-savestate'
 }

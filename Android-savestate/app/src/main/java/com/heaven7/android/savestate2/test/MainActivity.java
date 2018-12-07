@@ -1,5 +1,6 @@
 package com.heaven7.android.savestate2.test;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.heaven7.android.savestate2.SaveStateField;
-import com.heaven7.android.savestate2.SaveStateHelper;
+import com.heaven7.android.savestate2.SimpleSaveStateManager;
+
+import static android.os.Build.MANUFACTURER;
 
 /**
  * android 开启不保留活动.
@@ -25,13 +28,13 @@ public class MainActivity extends AppCompatActivity
     @SaveStateField("mState")
     private int mState;
 
-    private SaveStateHelper mhelper;
+    private SimpleSaveStateManager mhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mhelper = new SaveStateHelper(this);
-
+        mhelper = new SimpleSaveStateManager(this);
+        System.out.println("MANUFACTURER: " + MANUFACTURER);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

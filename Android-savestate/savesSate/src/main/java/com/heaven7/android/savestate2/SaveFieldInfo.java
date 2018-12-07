@@ -1,5 +1,6 @@
 package com.heaven7.android.savestate2;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
 /*public*/ class SaveFieldInfo {
@@ -8,9 +9,15 @@ import java.lang.reflect.Field;
     /** flag type */
     int type;
 
-    public SaveFieldInfo(Field f, SaveStateField saveField, int type) {
+    private final WeakReference<Object> ownerRef;
+
+    public SaveFieldInfo(Field f, SaveStateField saveField, int type, Object owner) {
         this.field = f;
         this.saveField = saveField;
         this.type = type;
+        this.ownerRef = new WeakReference<>(owner);
+    }
+    public Object getOwner(){
+        return ownerRef.get();
     }
 }
