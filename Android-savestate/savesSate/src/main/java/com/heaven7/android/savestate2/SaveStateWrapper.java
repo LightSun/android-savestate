@@ -20,15 +20,26 @@ public class SaveStateWrapper {
         this(delegate, new Bundle());
     }
 
+    /**
+     * called on save instance state.
+     * @param superState the super state.
+     * @return the wrapped save state
+     */
     public Parcelable onSaveInstanceState(@Nullable Parcelable superState){
         mDelegate.onSaveInstanceState(mBundle);
         return new SaveState(superState, mBundle);
     }
 
-    public void onRestoreInstanceState(Parcelable state){
+    /**
+     * called on restore instance state.
+     * @param state the parcel state which saved
+     * @return the super saved state.
+     */
+    public Parcelable onRestoreInstanceState(Parcelable state){
         SaveState ss = (SaveState) state;
         Bundle bundle = ss.getBundle();
         mDelegate.onRestoreInstanceState(bundle);
         //mBundle.putAll(bundle);
+        return ss.getSuperState();
     }
 }

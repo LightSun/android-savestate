@@ -15,7 +15,7 @@ public @interface SaveStateField {
      * the key used to save data into bundle or restore data from bundle.
      * @return the field name
      */
-    String value();
+    String value() default "";
 
     /**
      * the flag indicate the value type

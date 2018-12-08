@@ -21,4 +21,5 @@ public interface SaveStateDelegate {
      * @param savedInstanceState the state
      */
     void onRestoreInstanceState(@Nullable Bundle savedInstanceState);
+
 }

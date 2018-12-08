@@ -1,5 +1,7 @@
 package com.heaven7.android.savestate2;
 
+import android.text.TextUtils;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
@@ -19,5 +21,13 @@ import java.lang.reflect.Field;
     }
     public Object getOwner(){
         return ownerRef.get();
+    }
+
+    public String getKey(){
+        String value = saveField.value();
+        if(TextUtils.isEmpty(value)){
+            return field.getName();
+        }
+        return value;
     }
 }

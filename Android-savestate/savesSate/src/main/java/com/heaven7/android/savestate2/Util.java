@@ -1,6 +1,8 @@
 package com.heaven7.android.savestate2;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -11,18 +13,14 @@ import java.util.List;
 /*public*/ class Util {
 
     public static void init(Object holder, List<SaveFieldInfo> outInfos) {
-        Field[] fields = holder.getClass().getDeclaredFields();
-        if (fields == null || fields.length == 0)
-            return;
-        SaveStateField sf;
-        for (int i = 0, size = fields.length; i < size; i++) {
-            Field f = fields[i];
-            f.setAccessible(true);
-            sf = f.getAnnotation(SaveStateField.class);
-            if (sf == null)
-                continue;
-            outInfos.add(new SaveFieldInfo(f, sf, SaveStateUtil.getFlag(f, sf.flag()), holder));
-        }
+        Class<?> clazz = holder.getClass();
+        do {
+            getMatchedFieldInfos(holder, clazz, outInfos);
+            clazz = clazz.getSuperclass();
+            if(clazz == ViewGroup.class || clazz == View.class || clazz == Object.class || clazz == null){
+                break;
+            }
+        } while (true);
     }
 
     public static void onSaveInstanceState(List<SaveFieldInfo> inInfos, Bundle outState) {
@@ -48,5 +46,16 @@ import java.util.List;
         }
     }
 
-
+    private static void getMatchedFieldInfos(Object holder, Class<?> cls, List<SaveFieldInfo> out){
+        Field[] fields = cls.getDeclaredFields();
+        if(fields != null){
+            for (Field f : fields){
+                f.setAccessible(true);
+                SaveStateField ssf = f.getAnnotation(SaveStateField.class);
+                if(ssf != null){
+                    out.add(new SaveFieldInfo(f, ssf, SaveStateUtil.getFlag(f, ssf.flag()), holder));
+                }
+            }
+        }
+    }
 }
