@@ -14,319 +14,319 @@ import java.util.Collection;
 
 /*public*/ class SaveStateUtil {
 
-        /** default is null / 0 */
-        public static void doRestoreState(Bundle b, SaveFieldInfo info, Object holder) {
-            String key = info.saveField.value();
-            try {  //default 0
-                //no mapping return
-                 if(b.get(key) ==null){
-                     return ;
-                 }
-                switch (info.type) {
-                    //primetive
-                    case BundleSupportType.BYTE:
-                        info.field.set(holder, b.getByte(key));
-                        break;
-                    case BundleSupportType.BYTE_ARRAY:
-                        info.field.set(holder, b.getByteArray(key));
-                        break;
-                    case BundleSupportType.SHORT:
-                        info.field.set(holder, b.getShort(key));
-                        break;
-                    case BundleSupportType.SHORT_ARRAY:
-                        info.field.set(holder, b.getShortArray(key));
-                        break;
-                    case BundleSupportType.INT:
-                        info.field.set(holder, b.getInt(key));
-                        break;
-                    case BundleSupportType.INT_ARRAY:
-                        info.field.set(holder, b.getIntArray(key));
-                        break;
-                    case BundleSupportType.BOOLEAN:
-                        info.field.set(holder, b.getBoolean(key));
-                        break;
-                    case BundleSupportType.BOOLEAN_ARRAY:
-                        info.field.set(holder, b.getBooleanArray(key));
-                        break;
-                    case BundleSupportType.DOUBLE:
-                        info.field.set(holder, b.getDouble(key));
-                        break;
-                    case BundleSupportType.DOUBLE_ARRAY:
-                        info.field.set(holder, b.getDoubleArray(key));
-                        break;
-                    case BundleSupportType.CHAR:
-                        info.field.set(holder, b.getChar(key));
-                        break;
-                    case BundleSupportType.CHAR_ARRAY:
-                        info.field.set(holder, b.getCharArray(key));
-                        break;
-                    case BundleSupportType.FLOAT:
-                        info.field.set(holder, b.getFloat(key));
-                        break;
-                    case BundleSupportType.FLOAT_ARRAY:
-                        info.field.set(holder, b.getFloatArray(key));
-                        break;
-                    case BundleSupportType.LONG:
-                        info.field.set(holder, b.getLong(key));
-                        break;
-                    case BundleSupportType.LONG_ARRAY:
-                        info.field.set(holder, b.getLongArray(key));
-                        break;
-                    //==================================
+    /**
+     * default is null / 0
+     */
+    public static void doRestoreState(Bundle b, SaveInfoDelegate info) {
+        String key = info.getKey();
+        try {  //default 0
+            //no mapping return
+            if (b.get(key) == null) {
+                return;
+            }
+            switch (info.getType()) {
+                //primetive
+                case BundleSupportType.BYTE:
+                    info.set(b.getByte(key));
+                    break;
+                case BundleSupportType.BYTE_ARRAY:
+                    info.set(b.getByteArray(key));
+                    break;
+                case BundleSupportType.SHORT:
+                    info.set(b.getShort(key));
+                    break;
+                case BundleSupportType.SHORT_ARRAY:
+                    info.set(b.getShortArray(key));
+                    break;
+                case BundleSupportType.INT:
+                    info.set(b.getInt(key));
+                    break;
+                case BundleSupportType.INT_ARRAY:
+                    info.set(b.getIntArray(key));
+                    break;
+                case BundleSupportType.BOOLEAN:
+                    info.set(b.getBoolean(key));
+                    break;
+                case BundleSupportType.BOOLEAN_ARRAY:
+                    info.set(b.getBooleanArray(key));
+                    break;
+                case BundleSupportType.DOUBLE:
+                    info.set(b.getDouble(key));
+                    break;
+                case BundleSupportType.DOUBLE_ARRAY:
+                    info.set(b.getDoubleArray(key));
+                    break;
+                case BundleSupportType.CHAR:
+                    info.set(b.getChar(key));
+                    break;
+                case BundleSupportType.CHAR_ARRAY:
+                    info.set(b.getCharArray(key));
+                    break;
+                case BundleSupportType.FLOAT:
+                    info.set(b.getFloat(key));
+                    break;
+                case BundleSupportType.FLOAT_ARRAY:
+                    info.set(b.getFloatArray(key));
+                    break;
+                case BundleSupportType.LONG:
+                    info.set(b.getLong(key));
+                    break;
+                case BundleSupportType.LONG_ARRAY:
+                    info.set(b.getLongArray(key));
+                    break;
+                //==================================
 
-                    case BundleSupportType.STRING:
-                        info.field.set(holder, b.getString(key));
-                        break;
-                    case BundleSupportType.STRING_ARRAY:
-                        info.field.set(holder, b.getStringArray(key));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE:
-                        info.field.set(holder, b.getCharSequence(key));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE_ARRAY:
-                        info.field.set(holder, b.getCharSequenceArray(key));
-                        break;
-                    case BundleSupportType.PARCELABLE:
-                        info.field.set(holder, b.getParcelable(key));
-                        break;
-                    case BundleSupportType.PARCELABLE_ARRAY:
-                        info.field.set(holder, b.getParcelableArray(key));
-                        break;
-                    //================================
+                case BundleSupportType.STRING:
+                    info.set(b.getString(key));
+                    break;
+                case BundleSupportType.STRING_ARRAY:
+                    info.set(b.getStringArray(key));
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE:
+                    info.set(b.getCharSequence(key));
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE_ARRAY:
+                    info.set(b.getCharSequenceArray(key));
+                    break;
+                case BundleSupportType.PARCELABLE:
+                    info.set(b.getParcelable(key));
+                    break;
+                case BundleSupportType.PARCELABLE_ARRAY:
+                    info.set(b.getParcelableArray(key));
+                    break;
+                //================================
                      /*  BundleSupportType.IBINDER,
                             BundleSupportType.BUNDLE,
                             BundleSupportType.SERIALIZABLE,
                             BundleSupportType.SPARSE_PARCELABLE_ARRAY,*/
-                    case BundleSupportType.IBINDER:
-                        //api-18
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                            info.field.set(holder, b.getBinder(key));
-                        break;
-                    case BundleSupportType.BUNDLE:
-                        info.field.set(holder, b.getBundle(key));
-                        break;
-                    case BundleSupportType.SERIALIZABLE:
-                        info.field.set(holder, b.getSerializable(key));
-                        break;
-                    case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
-                        info.field.set(holder, b.getSparseParcelableArray(key));
-                        break;
-                    // ----------------------------------------------
+                case BundleSupportType.IBINDER:
+                    //api-18
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+                        info.set(b.getBinder(key));
+                    break;
+                case BundleSupportType.BUNDLE:
+                    info.set(b.getBundle(key));
+                    break;
+                case BundleSupportType.SERIALIZABLE:
+                    info.set(b.getSerializable(key));
+                    break;
+                case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
+                    info.set(b.getSparseParcelableArray(key));
+                    break;
+                // ----------------------------------------------
                  /*   BundleSupportType.INTEGER_ARRAY_lIST,
                             BundleSupportType.STRING_ARRAY_LIST,
                             BundleSupportType.PARCELABLE_ARRAY_LIST,
                             BundleSupportType.PARCELABLE_LIST,
                             BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST,*/
-                    case BundleSupportType.INTEGER_ARRAY_lIST:
-                        info.field.set(holder, b.getIntegerArrayList(key));
-                        break;
-                    case BundleSupportType.STRING_ARRAY_LIST:
-                        info.field.set(holder, b.getStringArrayList(key));
-                        break;
-                    case BundleSupportType.PARCELABLE_ARRAY_LIST:
-                        info.field.set(holder, b.getParcelableArrayList(key));
-                        break;
-                    case BundleSupportType.PARCELABLE_LIST:
-                        info.field.set(holder, b.getParcelableArrayList(key));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
-                        info.field.set(holder, b.getCharSequenceArrayList(key));
-                        break;
+                case BundleSupportType.INTEGER_ARRAY_lIST:
+                    info.set(b.getIntegerArrayList(key));
+                    break;
+                case BundleSupportType.STRING_ARRAY_LIST:
+                    info.set(b.getStringArrayList(key));
+                    break;
+                case BundleSupportType.PARCELABLE_ARRAY_LIST:
+                    info.set(b.getParcelableArrayList(key));
+                    break;
+                case BundleSupportType.PARCELABLE_LIST:
+                    info.set(b.getParcelableArrayList(key));
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
+                    info.set(b.getCharSequenceArrayList(key));
+                    break;
 
-                }
-            }catch (Exception e) {
-                throw new RuntimeException("Error to restore instance state ---> key = " + key,e);
             }
+        } catch (Exception e) {
+            throw new RuntimeException("Error to restore instance state ---> key = " + key, e);
         }
+    }
 
-        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-        public static void doSaveState(Bundle outState, SaveFieldInfo info, Object holder){
-            String key = info.getKey();
-            try {
-                if(info.field.get(holder) == null)
-                    return;
-                switch (info.type) {
-                    //primetive
-                    case BundleSupportType.BYTE:
-                        outState.putByte(key, info.field.getByte(holder));
-                        break;
-                    case BundleSupportType.BYTE_ARRAY:
-                        outState.putByteArray(key, (byte[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.SHORT:
-                        outState.putShort(key, info.field.getShort(holder));
-                        break;
-                    case BundleSupportType.SHORT_ARRAY:
-                        outState.putShortArray(key, (short[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.INT:
-                        outState.putInt(key, info.field.getInt(holder));
-                        break;
-                    case BundleSupportType.INT_ARRAY:
-                        outState.putIntArray(key, (int[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.BOOLEAN:
-                        outState.putBoolean(key, info.field.getBoolean(holder));
-                        break;
-                    case BundleSupportType.BOOLEAN_ARRAY:
-                        outState.putBooleanArray(key, (boolean[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.DOUBLE:
-                        outState.putDouble(key, info.field.getDouble(holder));
-                        break;
-                    case BundleSupportType.DOUBLE_ARRAY:
-                        outState.putDoubleArray(key, (double[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.CHAR:
-                        outState.putChar(key, info.field.getChar(holder));
-                        break;
-                    case BundleSupportType.CHAR_ARRAY:
-                        outState.putCharArray(key, (char[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.FLOAT:
-                        outState.putFloat(key, info.field.getFloat(holder));
-                        break;
-                    case BundleSupportType.FLOAT_ARRAY:
-                        outState.putFloatArray(key, (float[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.LONG:
-                        outState.putLong(key, info.field.getLong(holder));
-                        break;
-                    case BundleSupportType.LONG_ARRAY:
-                        outState.putLongArray(key, (long[]) info.field.get(holder));
-                        break;
-                    //==================================
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static void doSaveState(Bundle outState, SaveInfoDelegate info) {
+        String key = info.getKey();
+        try {
+            if (info.get() == null) {
+                return;
+            }
+            switch (info.getType()) {
+                //primetive
+                case BundleSupportType.BYTE:
+                    outState.putByte(key, info.getByte());
+                    break;
+                case BundleSupportType.BYTE_ARRAY:
+                    outState.putByteArray(key, (byte[]) info.get());
+                    break;
+                case BundleSupportType.SHORT:
+                    outState.putShort(key, info.getShort());
+                    break;
+                case BundleSupportType.SHORT_ARRAY:
+                    outState.putShortArray(key, (short[]) info.get());
+                    break;
+                case BundleSupportType.INT:
+                    outState.putInt(key, info.getInt());
+                    break;
+                case BundleSupportType.INT_ARRAY:
+                    outState.putIntArray(key, (int[]) info.get());
+                    break;
+                case BundleSupportType.BOOLEAN:
+                    outState.putBoolean(key, info.getBoolean());
+                    break;
+                case BundleSupportType.BOOLEAN_ARRAY:
+                    outState.putBooleanArray(key, (boolean[]) info.get());
+                    break;
+                case BundleSupportType.DOUBLE:
+                    outState.putDouble(key, info.getDouble());
+                    break;
+                case BundleSupportType.DOUBLE_ARRAY:
+                    outState.putDoubleArray(key, (double[]) info.get());
+                    break;
+                case BundleSupportType.CHAR:
+                    outState.putChar(key, info.getChar());
+                    break;
+                case BundleSupportType.CHAR_ARRAY:
+                    outState.putCharArray(key, (char[]) info.get());
+                    break;
+                case BundleSupportType.FLOAT:
+                    outState.putFloat(key, info.getFloat());
+                    break;
+                case BundleSupportType.FLOAT_ARRAY:
+                    outState.putFloatArray(key, (float[]) info.get());
+                    break;
+                case BundleSupportType.LONG:
+                    outState.putLong(key, info.getLong());
+                    break;
+                case BundleSupportType.LONG_ARRAY:
+                    outState.putLongArray(key, (long[]) info.get());
+                    break;
+                //==================================
 
-                    case BundleSupportType.STRING:
-                        outState.putString(key, (String) info.field.get(holder));
-                        break;
-                    case BundleSupportType.STRING_ARRAY:
-                        outState.putStringArray(key, (String[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE:
-                        outState.putCharSequence(key, (CharSequence) info.field.get(holder));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE_ARRAY:
-                        outState.putCharSequenceArray(key, (CharSequence[]) info.field.get(holder));
-                        break;
-                    case BundleSupportType.PARCELABLE:
-                        outState.putParcelable(key, (Parcelable) info.field.get(holder));
-                        break;
-                    case BundleSupportType.PARCELABLE_ARRAY:
-                        outState.putParcelableArray(key, (Parcelable[]) info.field.get(holder));
-                        break;
-                    //================================
+                case BundleSupportType.STRING:
+                    outState.putString(key, (String) info.get());
+                    break;
+                case BundleSupportType.STRING_ARRAY:
+                    outState.putStringArray(key, (String[]) info.get());
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE:
+                    outState.putCharSequence(key, (CharSequence) info.get());
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE_ARRAY:
+                    outState.putCharSequenceArray(key, (CharSequence[]) info.get());
+                    break;
+                case BundleSupportType.PARCELABLE:
+                    outState.putParcelable(key, (Parcelable) info.get());
+                    break;
+                case BundleSupportType.PARCELABLE_ARRAY:
+                    outState.putParcelableArray(key, (Parcelable[]) info.get());
+                    break;
+                //================================
                      /*  BundleSupportType.IBINDER,
                             BundleSupportType.BUNDLE,
                             BundleSupportType.SERIALIZABLE,
                             BundleSupportType.SPARSE_PARCELABLE_ARRAY,*/
-                    case BundleSupportType.IBINDER:
-                        //api-18
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                            outState.putBinder(key, (IBinder) info.field.get(holder));
-                        }
-                        break;
-                    case BundleSupportType.BUNDLE:
-                        outState.putBundle(key, (Bundle) info.field.get(holder));
-                        break;
-                    case BundleSupportType.SERIALIZABLE:
-                        outState.putSerializable(key, (Serializable) info.field.get(holder));
-                        break;
-                    case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
-                        outState.putSparseParcelableArray(key,
-                                (SparseArray<? extends Parcelable>) info.field.get(holder));
-                        break;
-                    // ----------------------------------------------
+                case BundleSupportType.IBINDER:
+                    //api-18
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                        outState.putBinder(key, (IBinder) info.get());
+                    }
+                    break;
+                case BundleSupportType.BUNDLE:
+                    outState.putBundle(key, (Bundle) info.get());
+                    break;
+                case BundleSupportType.SERIALIZABLE:
+                    outState.putSerializable(key, (Serializable) info.get());
+                    break;
+                case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
+                    outState.putSparseParcelableArray(key,
+                            (SparseArray<? extends Parcelable>) info.get());
+                    break;
+                // ----------------------------------------------
                  /*   BundleSupportType.INTEGER_ARRAY_lIST,
                             BundleSupportType.STRING_ARRAY_LIST,
                             BundleSupportType.PARCELABLE_ARRAY_LIST,
                             BundleSupportType.PARCELABLE_LIST,
                             BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST,*/
-                    case BundleSupportType.INTEGER_ARRAY_lIST:
-                        outState.putIntegerArrayList(key, (ArrayList<Integer>) info.field.get(holder));
-                        break;
-                    case BundleSupportType.STRING_ARRAY_LIST:
-                        outState.putStringArrayList(key, (ArrayList<String>) info.field.get(holder));
-                        break;
-                    case BundleSupportType.PARCELABLE_ARRAY_LIST:
-                        outState.putParcelableArrayList(key,
-                                (ArrayList<? extends Parcelable>) info.field.get(holder));
-                        break;
-                    case BundleSupportType.PARCELABLE_LIST:
-                        outState.putParcelableArrayList(key, new ArrayList<Parcelable>(
-                                (Collection<? extends Parcelable>) info.field.get(holder)));
-                        break;
-                    case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
-                        outState.putCharSequenceArrayList(key, (ArrayList<CharSequence>) info.field.get(holder));
-                        break;
+                case BundleSupportType.INTEGER_ARRAY_lIST:
+                    outState.putIntegerArrayList(key, (ArrayList<Integer>) info.get());
+                    break;
+                case BundleSupportType.STRING_ARRAY_LIST:
+                    outState.putStringArrayList(key, (ArrayList<String>) info.get());
+                    break;
+                case BundleSupportType.PARCELABLE_ARRAY_LIST:
+                    outState.putParcelableArrayList(key,
+                            (ArrayList<? extends Parcelable>) info.get());
+                    break;
+                case BundleSupportType.PARCELABLE_LIST:
+                    outState.putParcelableArrayList(key, new ArrayList<Parcelable>(
+                            (Collection<? extends Parcelable>) info.get()));
+                    break;
+                case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
+                    outState.putCharSequenceArrayList(key, (ArrayList<CharSequence>) info.get());
+                    break;
 
-                }
-            }catch (Exception e) {
-                throw new RuntimeException("Error to save instance state: key = " + key,e);
             }
+        } catch (Exception e) {
+            throw new RuntimeException("Error to save instance state: key = " + key, e);
         }
-        @BundleSupportTypeFlag
-        public static int getFlag(Field f , @BundleSupportTypeFlag int flag) {
-            Class<?> clazz = f.getType();
-            if(Byte.TYPE.isAssignableFrom(clazz)){
-                return  BundleSupportType.BYTE;
-            }else if(Short.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.SHORT;
-            } else if(Integer.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.INT;
-            }else if(Boolean.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.BOOLEAN;
-            }else if(Double.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.DOUBLE;
-            }else if(Long.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.LONG;
-            }else if(Character.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.CHAR;
-            }else if(Float.TYPE.isAssignableFrom(clazz)){
-                return BundleSupportType.FLOAT;
+    }
+
+    @BundleSupportTypeFlag
+    public static int getFlag(Field f, @BundleSupportTypeFlag int flag) {
+        Class<?> clazz = f.getType();
+        if (Byte.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.BYTE;
+        } else if (Short.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.SHORT;
+        } else if (Integer.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.INT;
+        } else if (Boolean.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.BOOLEAN;
+        } else if (Double.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.DOUBLE;
+        } else if (Long.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.LONG;
+        } else if (Character.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.CHAR;
+        } else if (Float.TYPE.isAssignableFrom(clazz)) {
+            return BundleSupportType.FLOAT;
+        } else if (String.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.STRING;
+        } else if (CharSequence.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.CHAR_SEQUENCE;
+        } else if (IBinder.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.IBINDER;
+        } else if (Bundle.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.BUNDLE;
+        } else if (Parcelable.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.PARCELABLE;
+        } else if (Serializable.class.isAssignableFrom(clazz)) {
+            return BundleSupportType.SERIALIZABLE;
+        }
+        // array
+        else if (clazz.isArray()) {
+            Class<?> clazz2 = clazz.getComponentType();
+            if (Byte.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.BYTE_ARRAY;
+            } else if (Short.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.SHORT_ARRAY;
+            } else if (Integer.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.INT_ARRAY;
+            } else if (Boolean.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.BOOLEAN_ARRAY;
+            } else if (Double.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.DOUBLE_ARRAY;
+            } else if (Long.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.LONG_ARRAY;
+            } else if (Character.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.CHAR_ARRAY;
+            } else if (Float.TYPE.isAssignableFrom(clazz2)) {
+                return BundleSupportType.FLOAT_ARRAY;
+            } else if (String.class.isAssignableFrom(clazz2)) {
+                return BundleSupportType.STRING_ARRAY;
+            } else if (CharSequence.class.isAssignableFrom(clazz2)) {
+                return BundleSupportType.CHAR_SEQUENCE_ARRAY;
+            } else if (Parcelable.class.isAssignableFrom(clazz2)) {
+                return BundleSupportType.PARCELABLE_ARRAY;
             }
-            else if(String.class.isAssignableFrom(clazz)){
-                return BundleSupportType.STRING;
-            }else if(CharSequence.class.isAssignableFrom(clazz)){
-                return BundleSupportType.CHAR_SEQUENCE;
-            }
-            else if(IBinder.class.isAssignableFrom(clazz)){
-                return BundleSupportType.IBINDER;
-            }else if(Bundle.class.isAssignableFrom(clazz)){
-                return BundleSupportType.BUNDLE;
-            }
-            else if(Parcelable.class.isAssignableFrom(clazz)){
-                return BundleSupportType.PARCELABLE;
-            }else if(Serializable.class.isAssignableFrom(clazz)){
-                return BundleSupportType.SERIALIZABLE;
-            }
-            // array
-            else if(clazz.isArray()){
-                Class<?> clazz2 = clazz.getComponentType();
-                if (Byte.TYPE.isAssignableFrom(clazz2)){
-                    return  BundleSupportType.BYTE_ARRAY;
-                }else if (Short.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.SHORT_ARRAY;
-                } else if(Integer.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.INT_ARRAY;
-                }else if(Boolean.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.BOOLEAN_ARRAY;
-                }else if(Double.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.DOUBLE_ARRAY;
-                }else if(Long.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.LONG_ARRAY;
-                }else if(Character.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.CHAR_ARRAY;
-                }else if(Float.TYPE.isAssignableFrom(clazz2)){
-                    return BundleSupportType.FLOAT_ARRAY;
-                }
-                else if(String.class.isAssignableFrom(clazz2)){
-                    return BundleSupportType.STRING_ARRAY;
-                }else if(CharSequence.class.isAssignableFrom(clazz2)){
-                    return BundleSupportType.CHAR_SEQUENCE_ARRAY;
-                }else if(Parcelable.class.isAssignableFrom(clazz2)){
-                    return BundleSupportType.PARCELABLE_ARRAY;
-                }
               /*  else{
                     Class<?>[] interfaces = clazz2.getInterfaces();
                     if(contains(interfaces, CharSequence.class)){
@@ -335,7 +335,7 @@ import java.util.Collection;
                         return BundleSupportType.PARCELABLE_ARRAY;
                     }
                 }*/
-            }/*else {
+        }/*else {
                 Class<?>[] interfaces = clazz.getInterfaces();
                 if(contains(interfaces, Parcelable.class)){
                     return BundleSupportType.PARCELABLE;
@@ -347,22 +347,22 @@ import java.util.Collection;
                     return BundleSupportType.SERIALIZABLE;
                 }
             }*/
-            //list ?  must assign flag or throw RuntimeException
-            switch (flag) {
-                case BundleSupportType.INTEGER_ARRAY_lIST:
-                case BundleSupportType.STRING_ARRAY_LIST:
-                case BundleSupportType.PARCELABLE_ARRAY_LIST:
-                case BundleSupportType.PARCELABLE_LIST:
-                case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
-                    // SparseArray<? extends Parcelable>
-                case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
-                    return flag;
-                default:
-                    String extra = "flag = " + flag + " ,field_name = " + f.getName();
-                    System.err.println(extra);
-                    throw new RuntimeException("flag only can be the value in interface BundleSupportType." + extra);
-            }
+        //list ?  must assign flag or throw RuntimeException
+        switch (flag) {
+            case BundleSupportType.INTEGER_ARRAY_lIST:
+            case BundleSupportType.STRING_ARRAY_LIST:
+            case BundleSupportType.PARCELABLE_ARRAY_LIST:
+            case BundleSupportType.PARCELABLE_LIST:
+            case BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST:
+                // SparseArray<? extends Parcelable>
+            case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
+                return flag;
+            default:
+                String extra = "flag = " + flag + " ,field_name = " + f.getName();
+                System.err.println(extra);
+                throw new RuntimeException("flag only can be the value in interface BundleSupportType." + extra);
         }
+    }
 
       /*  private static boolean contains(Class<?>[] interfaces, Class<?> clzz) {
             if(interfaces==null || interfaces.length==0)
@@ -374,4 +374,4 @@ import java.util.Collection;
             return false;
         }*/
 
-    }
+}

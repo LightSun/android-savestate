@@ -12,13 +12,13 @@ import java.util.List;
  */
 /*public*/ abstract class AbstractSaveStateDelegate implements SaveStateDelegate{
 
-    private final List<SaveFieldInfo> mInfos;
+    private final List<SaveInfoDelegate> mInfos;
 
     public AbstractSaveStateDelegate() {
         this.mInfos = new ArrayList<>();
     }
 
-    protected List<SaveFieldInfo> getSaveFieldInfos(){
+    protected List<SaveInfoDelegate> getSaveInfos(){
         return mInfos;
     }
 

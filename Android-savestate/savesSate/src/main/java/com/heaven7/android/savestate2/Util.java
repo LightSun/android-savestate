@@ -1,10 +1,14 @@
 package com.heaven7.android.savestate2;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,41 +16,50 @@ import java.util.List;
  */
 /*public*/ class Util {
 
-    public static void init(Object holder, List<SaveFieldInfo> outInfos) {
+    public static void init(Object holder, List<SaveInfoDelegate> outInfos) {
+        List<Method> getMethods = new ArrayList<>();
+        List<Method> setMethods = new ArrayList<>();
         Class<?> clazz = holder.getClass();
         do {
             getMatchedFieldInfos(holder, clazz, outInfos);
+            getMatchedMethodInfos(clazz, getMethods, setMethods);
             clazz = clazz.getSuperclass();
             if(clazz == ViewGroup.class || clazz == View.class || clazz == Object.class || clazz == null){
                 break;
             }
         } while (true);
+        //make method pairs.
+        if(getMethods.size() > setMethods.size()){
+            makePairMethods(getMethods, setMethods, holder, true, outInfos);
+        }else {
+            makePairMethods(setMethods, getMethods, holder, false, outInfos);
+        }
     }
 
-    public static void onSaveInstanceState(List<SaveFieldInfo> inInfos, Bundle outState) {
-        SaveFieldInfo info;
+    public static void onSaveInstanceState(List<SaveInfoDelegate> inInfos, Bundle outState) {
+        SaveInfoDelegate info;
         for (int i = 0, size = inInfos.size(); i < size; i++) {
             info = inInfos.get(i);
             Object owner = info.getOwner();
             if(owner != null){
-                SaveStateUtil.doSaveState(outState, info, owner);
+                SaveStateUtil.doSaveState(outState, info);
             }
         }
     }
-    public static void onRestoreInstanceState(List<SaveFieldInfo> inInfos, Bundle savedInstanceState) {
+    public static void onRestoreInstanceState(List<SaveInfoDelegate> inInfos, Bundle savedInstanceState) {
         if (savedInstanceState == null)
             return;
-        SaveFieldInfo info;
+        SaveInfoDelegate info;
         for (int i = 0, size = inInfos.size(); i < size; i++) {
             info = inInfos.get(i);
             Object owner = info.getOwner();
             if(owner != null) {
-                SaveStateUtil.doRestoreState(savedInstanceState, info, owner);
+                SaveStateUtil.doRestoreState(savedInstanceState, info);
             }
         }
     }
 
-    private static void getMatchedFieldInfos(Object holder, Class<?> cls, List<SaveFieldInfo> out){
+    private static void getMatchedFieldInfos(Object holder, Class<?> cls, List<SaveInfoDelegate> out){
         Field[] fields = cls.getDeclaredFields();
         if(fields != null){
             for (Field f : fields){
@@ -57,5 +70,65 @@ import java.util.List;
                 }
             }
         }
+    }
+
+    private static void getMatchedMethodInfos(Class<?> cls, List<Method> getMethods, List<Method> setMethods){
+        Method[] methods = cls.getDeclaredMethods();
+        if(methods != null){
+            for (Method m : methods){
+                m.setAccessible(true);
+                SaveStateMethod ssf = m.getAnnotation(SaveStateMethod.class);
+                if(ssf != null){
+                    if(ssf.applyType() == SaveStateMethodType.SAVE){
+                        getMethods.add(m);
+                    }else{
+                        setMethods.add(m);
+                    }
+                }
+            }
+        }
+    }
+    private static void makePairMethods(List<Method> src, List<Method> notSureMethods, Object holder,
+                                        boolean srcIsGet, List<SaveInfoDelegate> outInfos){
+        for(Iterator<Method> it = src.iterator() ; it.hasNext() ; ){
+            Method m = it.next();
+            //
+            String property = getPropertyFromMethod(m);
+            Method another = null;
+            //find same property method of it.
+            for(Iterator<Method> it2 = notSureMethods.iterator() ; it2.hasNext();){
+                Method m2 = it2.next();
+                String temp = getPropertyFromMethod(m2);
+                if(temp.equals(property)){
+                    another = m2;
+                    it2.remove();
+                    break;
+                }
+            }
+            if(another == null){
+                throw new IllegalStateException("[ Save-State Init ]: can't find get/set method for property = " + property
+                        +" ,method name = " + m.getName() + " ,declare class is " + m.getDeclaringClass().getName());
+            }
+            //make pair success
+            if(srcIsGet){
+                outInfos.add(new SaveMethodInfo(holder, m, another));
+            }else{
+                outInfos.add(new SaveMethodInfo(holder, another, m));
+            }
+            it.remove();
+        }
+    }
+    private static String getPropertyFromMethod(Method method){
+        SaveStateMethod ssm = method.getAnnotation(SaveStateMethod.class);
+        String value = ssm.value();
+        if(TextUtils.isEmpty(value)){
+            String name = method.getName();
+            if(name.startsWith("get") || name.startsWith("set")){
+                value = name.substring(3);
+            }else{
+                value = name;
+            }
+        }
+        return value;
     }
 }

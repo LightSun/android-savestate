@@ -20,6 +20,19 @@ public class SaveStateWrapper {
         this(delegate, new Bundle());
     }
 
+    public static SaveStateWrapper of(Object... holders){
+        if(holders.length == 0){
+            throw new IllegalArgumentException();
+        }
+        final SaveStateDelegate delegate;
+        if(holders.length == 1){
+            delegate = new SimpleSaveStateManager(holders[0]);
+        }else{
+            delegate = new ComposeSaveStateManager().addHolders(holders);
+        }
+        return new SaveStateWrapper(delegate, new Bundle());
+    }
+
     /**
      * called on save instance state.
      * @param superState the super state.

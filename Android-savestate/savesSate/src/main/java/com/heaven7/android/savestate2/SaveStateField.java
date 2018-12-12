@@ -6,13 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /***
- * useful to quick save state and restore it from bundle
+ * useful to quick save state and restore it from bundle.
+ * some times we use a java class to wrap a c++ class. so may used method to save/restore info.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD})
 public @interface SaveStateField {
     /**
-     * the key used to save data into bundle or restore data from bundle.
+     * the key used to save data into bundle or restore data from bundle. empty means use field name.
      * @return the field name
      */
     String value() default "";

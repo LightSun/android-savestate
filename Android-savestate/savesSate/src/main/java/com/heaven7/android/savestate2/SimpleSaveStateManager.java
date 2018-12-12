@@ -11,6 +11,6 @@ public class SimpleSaveStateManager extends AbstractSaveStateDelegate implements
      */
     public SimpleSaveStateManager(Object holder) {
         super();
-        Util.init(holder, getSaveFieldInfos());
+        Util.init(holder, getSaveInfos());
     }
 }
