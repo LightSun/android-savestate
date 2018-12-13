@@ -8,24 +8,32 @@ import java.lang.reflect.Method;
 
 /**
  * Created by heaven7 on 2018/12/12 0012.
+ * @since 1.0.6
  */
 /*public*/ class SaveMethodInfo implements SaveInfoDelegate {
 
     private final WeakReference<Object> ownerRef;
-    private final Method getMethod;
+    /*private*/ final Method getMethod;
     private final Method setMethod;
     private final SaveStateMethod stateMethod;
+    private final int flag;
 
     public SaveMethodInfo(Object owner, Method getMethod, Method setMethod) {
         this.ownerRef = new WeakReference<>(owner);
         this.stateMethod = getMethod.getAnnotation(SaveStateMethod.class);
         this.getMethod = getMethod;
         this.setMethod = setMethod;
+        this.flag = getFlag(getMethod, stateMethod);
+    }
+
+    protected int getFlag(Method getMethod, SaveStateMethod ssm){
+        return SaveStateUtil.getFlag(getMethod.getReturnType(), ssm.flag(),
+                "method name = " + getMethod.getName() + " ,refer class is " + getMethod.getDeclaringClass().getName());
     }
 
     @Override
     public int getType() {
-        return stateMethod.flag();
+        return flag;
     }
 
     @Override

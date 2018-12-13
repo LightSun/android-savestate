@@ -24,12 +24,12 @@ public @interface SaveStateMethod {
      * the flag indicate the value type
      *  @return the type flag of save instance state.
      */
-    @BundleSupportTypeFlag int flag() default BundleSupportType.STRING;
+    @SupportValueTypes int flag() default BundleSupportType.STRING;
 
     /**
-     * the method apply type . save(get) or restore(set). default is {@linkplain SaveStateMethodType#SAVE}.
+     * the method apply type . save(get) or restore(set). default is {@linkplain SaveStateMethodType#GET}.
      * @return the method apply type
      */
-    @SaveStateMethodTypeFlag int applyType() default SaveStateMethodType.SAVE;
+    @SaveStateMethodTypeFlag int applyType() default SaveStateMethodType.GET;
 
 }

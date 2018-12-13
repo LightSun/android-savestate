@@ -16,12 +16,12 @@ import java.util.List;
  */
 /*public*/ class Util {
 
-    public static void init(Object holder, List<SaveInfoDelegate> outInfos) {
+    public static void init(Object holder, SaveInfoFactory factory, List<SaveInfoDelegate> outInfos) {
         List<Method> getMethods = new ArrayList<>();
         List<Method> setMethods = new ArrayList<>();
         Class<?> clazz = holder.getClass();
         do {
-            getMatchedFieldInfos(holder, clazz, outInfos);
+            getMatchedFieldInfos(holder, clazz, factory, outInfos);
             getMatchedMethodInfos(clazz, getMethods, setMethods);
             clazz = clazz.getSuperclass();
             if(clazz == ViewGroup.class || clazz == View.class || clazz == Object.class || clazz == null){
@@ -30,9 +30,9 @@ import java.util.List;
         } while (true);
         //make method pairs.
         if(getMethods.size() > setMethods.size()){
-            makePairMethods(getMethods, setMethods, holder, true, outInfos);
+            makePairMethods(getMethods, setMethods, holder, true, factory, outInfos);
         }else {
-            makePairMethods(setMethods, getMethods, holder, false, outInfos);
+            makePairMethods(setMethods, getMethods, holder, false, factory, outInfos);
         }
     }
 
@@ -59,14 +59,14 @@ import java.util.List;
         }
     }
 
-    private static void getMatchedFieldInfos(Object holder, Class<?> cls, List<SaveInfoDelegate> out){
+    private static void getMatchedFieldInfos(Object holder, Class<?> cls, SaveInfoFactory factory, List<SaveInfoDelegate> out){
         Field[] fields = cls.getDeclaredFields();
         if(fields != null){
             for (Field f : fields){
                 f.setAccessible(true);
                 SaveStateField ssf = f.getAnnotation(SaveStateField.class);
                 if(ssf != null){
-                    out.add(new SaveFieldInfo(f, ssf, SaveStateUtil.getFlag(f, ssf.flag()), holder));
+                    out.add(factory.createFieldInfo(f, ssf, holder));
                 }
             }
         }
@@ -79,7 +79,7 @@ import java.util.List;
                 m.setAccessible(true);
                 SaveStateMethod ssf = m.getAnnotation(SaveStateMethod.class);
                 if(ssf != null){
-                    if(ssf.applyType() == SaveStateMethodType.SAVE){
+                    if(ssf.applyType() == SaveStateMethodType.GET){
                         getMethods.add(m);
                     }else{
                         setMethods.add(m);
@@ -89,7 +89,7 @@ import java.util.List;
         }
     }
     private static void makePairMethods(List<Method> src, List<Method> notSureMethods, Object holder,
-                                        boolean srcIsGet, List<SaveInfoDelegate> outInfos){
+                                        boolean srcIsGet, SaveInfoFactory factory, List<SaveInfoDelegate> outInfos){
         for(Iterator<Method> it = src.iterator() ; it.hasNext() ; ){
             Method m = it.next();
             //
@@ -111,9 +111,9 @@ import java.util.List;
             }
             //make pair success
             if(srcIsGet){
-                outInfos.add(new SaveMethodInfo(holder, m, another));
+                outInfos.add(factory.createMethodInfo(m, another, holder));
             }else{
-                outInfos.add(new SaveMethodInfo(holder, another, m));
+                outInfos.add(factory.createMethodInfo(another, m, holder));
             }
             it.remove();
         }
@@ -130,5 +130,21 @@ import java.util.List;
             }
         }
         return value;
+    }
+
+    public static JsonVersion getJsonVersion(Object holder) {
+        JsonVersion version;
+        Class<?> clazz = holder.getClass();
+        do {
+            version = clazz.getAnnotation(JsonVersion.class);
+            if(version != null){
+                break;
+            }
+            clazz = clazz.getSuperclass();
+            if(clazz == ViewGroup.class || clazz == View.class || clazz == Object.class || clazz == null){
+                break;
+            }
+        } while (true);
+        return version;
     }
 }

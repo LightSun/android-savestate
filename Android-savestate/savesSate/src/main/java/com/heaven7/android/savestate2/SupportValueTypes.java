@@ -42,5 +42,5 @@ import java.lang.annotation.RetentionPolicy;
         BundleSupportType.CHAR_SEQUENCE_ARRAY_LIST,
 })
 @Retention(RetentionPolicy.CLASS)
-public @interface BundleSupportTypeFlag {
+public @interface SupportValueTypes {
 }

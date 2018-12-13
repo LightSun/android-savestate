@@ -9,8 +9,8 @@ import java.lang.annotation.RetentionPolicy;
  * Created by heaven7 on 2018/12/12 0012.
  */
 @IntDef({
-        SaveStateMethodType.SAVE,
-        SaveStateMethodType.RESTORE
+        SaveStateMethodType.GET,
+        SaveStateMethodType.SET
 })
 @Retention(RetentionPolicy.CLASS)
 public @interface SaveStateMethodTypeFlag {

@@ -1,6 +1,5 @@
 package com.heaven7.android.savestate2.test;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.heaven7.android.savestate2.BundleSaveStateDelegate;
+import com.heaven7.android.savestate2.JsonSaveStateDelegate;
+import com.heaven7.android.savestate2.JsonStateWrapper;
 import com.heaven7.android.savestate2.SaveStateField;
-import com.heaven7.android.savestate2.SimpleSaveStateManager;
 
 import static android.os.Build.MANUFACTURER;
 
@@ -25,15 +26,21 @@ import static android.os.Build.MANUFACTURER;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @SaveStateField("mState")
+    @SaveStateField
     private int mState;
+    @SaveStateField
+    private Persion mPerson = new Persion("default", 1);
 
-    private SimpleSaveStateManager mhelper;
+    private BundleSaveStateDelegate mBundleWrapper;
+    private JsonStateWrapper mJsonWrapper;
+
+    private static String JSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mhelper = new SimpleSaveStateManager(this);
+        mBundleWrapper = new BundleSaveStateDelegate(this);
+        mJsonWrapper = JsonStateWrapper.of(this);
         System.out.println("MANUFACTURER: " + MANUFACTURER);
 
         setContentView(R.layout.activity_main);
@@ -65,6 +72,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             mState = 3;
+            mPerson.setAge(18);
+            mPerson.setName("heaven7");
         } else {
             super.onBackPressed();
         }
@@ -119,15 +128,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mhelper.onSaveInstanceState(outState);
+        mBundleWrapper.onSaveInstanceState(outState);
+        JSON = mJsonWrapper.onSaveInstanceState();
         System.out.println("onSaveInstanceState: state = " + mState);
+        mState = 0;
+        mPerson = new Persion("", 0);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         System.out.println("before onRestoreInstanceState: state = " + mState);
-        mhelper.onRestoreInstanceState(savedInstanceState);
+        mBundleWrapper.onRestoreInstanceState(savedInstanceState);
         System.out.println("after onRestoreInstanceState: state = " + mState);
+        mJsonWrapper.onRestoreInstanceState(JSON);
+        System.out.println(mPerson.toString());
     }
 }

@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
 /*public*/ class SaveFieldInfo implements SaveInfoDelegate {
-    private Field field;
+    /*private*/ Field field;
     private SaveStateField saveField;
     /** flag type */
     private int type;

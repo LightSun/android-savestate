@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.util.SparseArray;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -269,9 +268,8 @@ import java.util.Collection;
         }
     }
 
-    @BundleSupportTypeFlag
-    public static int getFlag(Field f, @BundleSupportTypeFlag int flag) {
-        Class<?> clazz = f.getType();
+    @SupportValueTypes
+    public static int getFlag(Class<?> clazz, @SupportValueTypes int flag, String prefix) {
         if (Byte.TYPE.isAssignableFrom(clazz)) {
             return BundleSupportType.BYTE;
         } else if (Short.TYPE.isAssignableFrom(clazz)) {
@@ -358,7 +356,7 @@ import java.util.Collection;
             case BundleSupportType.SPARSE_PARCELABLE_ARRAY:
                 return flag;
             default:
-                String extra = "flag = " + flag + " ,field_name = " + f.getName();
+                String extra = "flag = " + flag + " ," + prefix;
                 System.err.println(extra);
                 throw new RuntimeException("flag only can be the value in interface BundleSupportType." + extra);
         }

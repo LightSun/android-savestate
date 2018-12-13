@@ -6,31 +6,26 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by heaven7 on 2018/12/6 0006.
+ * @since 1.0.6
  */
-public class SaveStateWrapper {
+public class BundleStateWrapper {
 
     private final Bundle mBundle;
-    private final SaveStateDelegate mDelegate;
+    private final BundleSaveStateDelegate mDelegate;
 
-    public SaveStateWrapper(SaveStateDelegate delegate, Bundle mBundle) {
+    public BundleStateWrapper(BundleSaveStateDelegate delegate, Bundle mBundle) {
         this.mDelegate = delegate;
         this.mBundle = mBundle;
     }
-    public SaveStateWrapper(SaveStateDelegate delegate){
+    public BundleStateWrapper(BundleSaveStateDelegate delegate){
         this(delegate, new Bundle());
     }
 
-    public static SaveStateWrapper of(Object... holders){
+    public static BundleStateWrapper of(Object... holders){
         if(holders.length == 0){
             throw new IllegalArgumentException();
         }
-        final SaveStateDelegate delegate;
-        if(holders.length == 1){
-            delegate = new SimpleSaveStateManager(holders[0]);
-        }else{
-            delegate = new ComposeSaveStateManager().addHolders(holders);
-        }
-        return new SaveStateWrapper(delegate, new Bundle());
+        return new BundleStateWrapper(new BundleSaveStateDelegate(holders), new Bundle());
     }
 
     /**

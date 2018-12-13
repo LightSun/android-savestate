@@ -22,5 +22,5 @@ public @interface SaveStateField {
      * the flag indicate the value type
      *  @return the type flag of save instance state.
      */
-    @BundleSupportTypeFlag int flag() default BundleSupportType.STRING;
+    @SupportValueTypes int flag() default BundleSupportType.STRING;
 }
