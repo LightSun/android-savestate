@@ -132,11 +132,11 @@ import java.util.List;
         return value;
     }
 
-    public static JsonVersion getJsonVersion(Object holder) {
-        JsonVersion version;
+    public static JsonConfig getJsonConfig(Object holder) {
+        JsonConfig version;
         Class<?> clazz = holder.getClass();
         do {
-            version = clazz.getAnnotation(JsonVersion.class);
+            version = clazz.getAnnotation(JsonConfig.class);
             if(version != null){
                 break;
             }

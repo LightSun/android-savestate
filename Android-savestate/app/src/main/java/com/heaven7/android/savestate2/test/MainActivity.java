@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.heaven7.android.savestate2.BundleSaveStateDelegate;
-import com.heaven7.android.savestate2.JsonSaveStateDelegate;
 import com.heaven7.android.savestate2.JsonStateWrapper;
 import com.heaven7.android.savestate2.SaveStateField;
 

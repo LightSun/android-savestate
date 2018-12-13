@@ -21,6 +21,10 @@ public class BundleStateWrapper {
         this(delegate, new Bundle());
     }
 
+    public BundleSaveStateDelegate getSaveStateDelegate(){
+        return mDelegate;
+    }
+
     public static BundleStateWrapper of(Object... holders){
         if(holders.length == 0){
             throw new IllegalArgumentException();

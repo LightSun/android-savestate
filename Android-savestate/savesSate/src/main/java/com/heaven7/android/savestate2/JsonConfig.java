@@ -11,11 +11,17 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonVersion {
+public @interface JsonConfig {
 
     /**
-     * apply the json version.
+     * define the json version.
      * @return the json version. often is Gson
      */
     double value() default 1.0;
+
+    /**
+     * define the gson factory
+     * @return the gson factory.
+     */
+    Class<? extends GsonFactory> gsonFactory() default GsonFactory.class;
 }

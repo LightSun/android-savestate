@@ -21,15 +21,22 @@ public class JsonSaveStateDelegate extends BaseSaveStateDelegate<JsonObject> imp
     }
 
     public JsonSaveStateDelegate addHolder(Object holder){
-        JsonVersion version = Util.getJsonVersion(holder);
+        JsonConfig config = Util.getJsonConfig(holder);
         Gson gson;
-        if(version == null){
+        if(config == null){
             if(GSON == null){
                 GSON = new Gson();
             }
             gson = GSON;
         }else{
-            gson = new GsonBuilder().setVersion(version.value()).create();
+            GsonBuilder builder = new GsonBuilder().setVersion(config.value());
+            try {
+                gson = config.gsonFactory().newInstance().create(builder);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         }
         Util.init(holder, SaveInfoFactory.ofGson(gson), getSaveInfos());
         return this;
