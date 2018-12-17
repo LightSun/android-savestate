@@ -45,6 +45,26 @@ public class JsonStateWrapper {
     }
 
     /**
+     * call this to save state to json object
+     * @return the json object
+     * @since 1.0.7
+     */
+    public JsonObject saveInstanceState(){
+        JsonObject jo = new JsonObject();
+        mDelegate.onSaveInstanceState(jo);
+        return jo;
+    }
+
+    /**
+     * call this to restore instance state.
+     * @param src the json object in.
+     * @since 1.0.7
+     */
+    public void restoreInstanceState(JsonObject src){
+        mDelegate.onRestoreInstanceState(src);
+    }
+
+    /**
      * called on save json state to file.
      * @param out the out file
      * @param deleteWhenExist true to delete if the out file is already exists.
