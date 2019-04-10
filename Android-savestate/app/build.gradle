@@ -8,6 +8,8 @@ android {
     defaultConfig {
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
+
+        applicationId "com.heaven7.android.savestate2.test"
         versionCode 1
         versionName "1.0"
     }
@@ -32,4 +34,6 @@ dependencies {
 
     implementation 'com.heaven7.core.util:util-v1:1.1.2'
     implementation project(':savesSate')
+
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

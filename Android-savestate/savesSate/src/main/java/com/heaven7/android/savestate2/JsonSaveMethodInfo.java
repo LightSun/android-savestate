@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
         if(value == null){
             return JsonNull.INSTANCE;
         }
-        return new Gson().toJsonTree(value);
+        return mGson.toJsonTree(value);
     }
 
     @Override

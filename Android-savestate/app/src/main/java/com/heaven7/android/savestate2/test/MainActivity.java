@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     private BundleSaveStateDelegate mBundleWrapper;
     private JsonStateWrapper mJsonWrapper;
+    private TestHolder mHolder = new TestHolder();
 
     private static String JSON;
 
@@ -39,7 +40,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBundleWrapper = new BundleSaveStateDelegate(this);
-        mJsonWrapper = JsonStateWrapper.of(this);
+
+        mJsonWrapper = JsonStateWrapper.of(this, mHolder);
+        mHolder.setAnchor("heaven7");
+        mHolder.setVersion(1.68);
+        NestHolder nestHolder = new NestHolder();
+        nestHolder.setAnchor("nestHolder");
+        mHolder.setNestHolder(nestHolder);
         System.out.println("MANUFACTURER: " + MANUFACTURER);
 
         setContentView(R.layout.activity_main);
@@ -127,20 +134,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mBundleWrapper.onSaveInstanceState(outState);
+       // mBundleWrapper.onSaveInstanceState(outState);
         JSON = mJsonWrapper.onSaveInstanceState();
         System.out.println("onSaveInstanceState: state = " + mState);
+        System.out.println("onSaveInstanceState: JSON = " + JSON);
+        //after save just reset to check data is ok or not.
         mState = 0;
         mPerson = new Persion("", 0);
+        mHolder.reset();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         System.out.println("before onRestoreInstanceState: state = " + mState);
-        mBundleWrapper.onRestoreInstanceState(savedInstanceState);
-        System.out.println("after onRestoreInstanceState: state = " + mState);
+       // mBundleWrapper.onRestoreInstanceState(savedInstanceState);
         mJsonWrapper.onRestoreInstanceState(JSON);
-        System.out.println(mPerson.toString());
+        System.out.println("after onRestoreInstanceState: state = " + mState);
+        System.out.println("onRestoreInstanceState Person: " + mPerson.toString());
+        System.out.println("onRestoreInstanceState TestHolder: " + mHolder.toString());
     }
 }
