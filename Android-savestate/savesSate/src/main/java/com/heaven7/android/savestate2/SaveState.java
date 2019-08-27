@@ -16,7 +16,7 @@ public class SaveState extends AbsSavedState {
     private final Bundle mBundle;
 
     protected SaveState(@Nullable Parcelable superState, @NonNull Bundle bundle) {
-        super(superState);
+        super(superState != null ? superState : EMPTY_STATE);
         this.mBundle = bundle;
     }
 
